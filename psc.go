@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-type CmdLineArgs struct {
+type cmdLineArgs struct {
 	ipFrom string
 	ipTo   string
 	port   uint16
@@ -42,34 +42,34 @@ func main() {
 	}
 }
 
-func parseCmdLineArgs(args []string) (CmdLineArgs, error) {
+func parseCmdLineArgs(args []string) (cmdLineArgs, error) {
 	if len(args) < 3 {
-		return CmdLineArgs{}, errors.New("Invalid arguments count")
+		return cmdLineArgs{}, errors.New("Invalid arguments count")
 	}
 
-	parseFn := func(ipFromArg string, ipToArg string, portArg string) (CmdLineArgs, error) {
+	parseFn := func(ipFromArg string, ipToArg string, portArg string) (cmdLineArgs, error) {
 		var ipFrom, ipTo string
 		var port uint16
 		var err error
 
 		ipFrom, err = parseIp(ipFromArg)
 		if err != nil {
-			return CmdLineArgs{}, errors.New("Invalid ip-from value")
+			return cmdLineArgs{}, errors.New("Invalid ip-from value")
 		}
 
 		ipTo, err = parseIp(ipToArg)
 		if err != nil {
-			return CmdLineArgs{}, errors.New("Invalid ip-to value")
+			return cmdLineArgs{}, errors.New("Invalid ip-to value")
 		}
 
 		port64, err := strconv.ParseUint(portArg, 10, 16)
 		if err != nil {
-			return CmdLineArgs{}, errors.New("Invalid port value")
+			return cmdLineArgs{}, errors.New("Invalid port value")
 		}
 
 		port = uint16(port64)
 
-		return CmdLineArgs{ipFrom, ipTo, port}, nil
+		return cmdLineArgs{ipFrom, ipTo, port}, nil
 	}
 
 	if len(args) == 3 {
